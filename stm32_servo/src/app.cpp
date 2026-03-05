@@ -1,8 +1,12 @@
 #include "stm32_servo/app.hpp"
 
+#include "drivers/stm32_fdcan/driver_stm32_fdcan.hpp"
+#include "gn10_can/core/can_bus.hpp"
+#include "gn10_can/devices/servo_motor_server.hpp"
 #include "tim.h"
 
 extern TIM_HandleTypeDef htim2;
+
 void setup()
 {
     HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
