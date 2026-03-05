@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 
 add_library(stm32_servo STATIC
     src/app.cpp
-    ${CMAKE_SOURCE_DIR}/gn10_can/drivers/stm32_can/driver_stm32_can.cpp
+    ${CMAKE_SOURCE_DIR}/gn10_can/drivers/stm32_fdcan/driver_stm32_fdcan.cpp
 )
 
 target_include_directories(stm32_servo PUBLIC
