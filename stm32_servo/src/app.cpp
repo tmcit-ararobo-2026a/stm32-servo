@@ -52,13 +52,12 @@ static void update_servo(ServoConfig& config)
     // Update PWM if new angle received
     float angle;
     if (config.server.get_new_angle_rad(angle)) {
-        // Clamp angle to [-PI/2, PI/2]
-        constexpr float HALF_PI = M_PI / 2.0f;
-        float clamped           = std::max(-HALF_PI, std::min(HALF_PI, angle));
+        // Clamp angle to [0, PI]
+        float clamped = std::max(0.0f, std::min(static_cast<float>(M_PI), angle));
 
-        // Map [-PI/2, PI/2] to [min_us, max_us]
-        // t = 0.0 at -PI/2, t = 1.0 at PI/2
-        float t = (clamped + HALF_PI) / M_PI;
+        // Map [0, PI] to [min_us, max_us]
+        // t = 0.0 at 0, t = 1.0 at PI
+        float t = clamped / M_PI;
 
         uint16_t pulse = config.min_us + static_cast<uint16_t>(t * (config.max_us - config.min_us));
 
