@@ -45,8 +45,6 @@ static void update_servo(ServoConfig& config)
     // Update min/max if new init config received
     uint16_t new_min, new_max;
     if (config.server.get_new_init(new_min, new_max)) {
-        config.min_us = new_min;
-        config.max_us = new_max;
     }
 
     // Update PWM if new angle received
@@ -59,7 +57,8 @@ static void update_servo(ServoConfig& config)
         // t = 0.0 at 0, t = 1.0 at PI
         float t = clamped / M_PI;
 
-        uint16_t pulse = config.min_us + static_cast<uint16_t>(t * (config.max_us - config.min_us));
+        uint16_t pulse =
+            uint16_t((float)config.min_us + (t * float(config.max_us - config.min_us)));
 
         // Ensure pulse is strictly within bounds
         pulse = std::max(config.min_us, std::min(config.max_us, pulse));
