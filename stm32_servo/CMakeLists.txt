@@ -5,10 +5,9 @@ add_library(stm32_servo STATIC
     ${CMAKE_SOURCE_DIR}/gn10_can/drivers/stm32_fdcan/driver_stm32_fdcan.cpp
 )
 
-target_include_directories(stm32_servo PUBLIC 
+target_include_directories(stm32_servo PUBLIC
     include
     ${CMAKE_SOURCE_DIR}/gn10_can
-    
 )
 target_compile_features(stm32_servo PUBLIC cxx_std_17)
 
