@@ -11,7 +11,7 @@ gn10_can::CANBus can_bus(can_driver);
 gn10_can::devices::ServoMotorServer servo(can_bus, 0);
 uint32_t duty_set = 0;
 uint16_t max_us, min_us = 0;
-float cycle = 20.0f;
+float pulse_width = 0;
 void setup()
 {
     can_driver.init();
@@ -23,16 +23,16 @@ void setup()
 
 void loop()
 {
-    float angle_rad = 0;
+    float angle_deg = 0;
     uint16_t new_max, new_min;
     if (servo.get_new_init(new_min, new_max)) {
-        max_us = new_max / cycle;
-        min_us = new_min / cycle;
+        max_us      = new_max;
+        min_us      = new_min;
+        pulse_width = (max_us - min_us) * 1000.0f;
     }
     can_bus.update();
-    if (servo.get_new_angle_rad(angle_rad)) {
-        duty_set =
-            (uint32_t)((angle_rad * (max_us - min_us) / 180.0f + min_us) * 65535.0f / 100.0f);
+    if (servo.get_new_angle_rad(angle_deg)) {
+        duty_set = (uint32_t)(angle_deg * (pulse_width / 180.0f) + min_us * 1000.0f);
     }
     __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, duty_set);
 }
