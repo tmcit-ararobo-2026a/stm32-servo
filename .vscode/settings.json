@@ -1,4 +1,5 @@
 {
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "C_Cpp.default.cppStandard": "c++17",
     "editor.formatOnSave": true,
     "editor.formatOnPaste": false,
@@ -6,13 +7,11 @@
         "*": false,
         "plaintext": false,
         "markdown": false,
-        "scminput": false,
-        "cpp": false,
-        "c": false
+        "scminput": false
     },
     "plantuml.exportFormat": "png",
-    "plantuml.exportOutDir": "docs/uml/",
-    "plantuml.diagramsRoot": "docs/uml/",
+    "plantuml.exportOutDir": "uml/",
+    "plantuml.diagramsRoot": "uml/",
     "plantuml.exportSubFolder": false,
     "[cpp]": {
         "editor.defaultFormatter": "ms-vscode.cpptools"
