@@ -9,7 +9,7 @@
 gn10_can::drivers::DriverSTM32FDCAN can_driver(&hfdcan1);
 gn10_can::CANBus can_bus(can_driver);
 gn10_can::devices::ServoMotorServer servo(can_bus, 0);
-uint32_t duty_ms = 0;
+float duty_ms = 0;
 uint16_t max_us, min_us = 0;
 float pulse_width_ms     = 0;
 constexpr float MAX_DUTY = 19999.0f;
@@ -27,12 +27,13 @@ void loop()
     if (servo.get_new_init(new_min, new_max)) {
         max_us         = new_max;
         min_us         = new_min;
-        pulse_width_ms = (max_us - min_us);
+        pulse_width_ms = (max_us - min_us) / 1000.0f;
     }
     can_bus.update();
     if (servo.get_new_angle_rad(angle_rad)) {
-        duty_ms = (uint32_t)(angle_rad * (pulse_width_ms / 3.14159265359f) + min_us);
+        duty_ms =
+            (uint32_t)((angle_rad / 3.14159265359f) * pulse_width_ms + ((float)min_us / 1000.0f));
+        uint32_t duty = uint32_t((duty_ms / 20.0f) * MAX_DUTY);
+        __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, duty);
     }
-    uint32_t duty = uint32_t((duty_ms / 20.0f) * MAX_DUTY);
-    __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, duty);
 }
