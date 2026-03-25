@@ -23,7 +23,7 @@ void setup()
 
 void loop()
 {
-    float angle_deg = 0;
+    float angle_rad = 0;
     uint16_t new_max, new_min;
     if (servo.get_new_init(new_min, new_max)) {
         max_us      = new_max;
@@ -31,8 +31,8 @@ void loop()
         pulse_width = (max_us - min_us) * 1000.0f;
     }
     can_bus.update();
-    if (servo.get_new_angle_rad(angle_deg)) {
-        duty_set = (uint32_t)(angle_deg * (pulse_width / 180.0f) + min_us * 1000.0f);
+    if (servo.get_new_angle_rad(angle_rad)) {
+        duty_set = (uint32_t)(angle_rad * (pulse_width / 3.14159265359f) + min_us * 1000.0f);
     }
     __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, duty_set);
 }
