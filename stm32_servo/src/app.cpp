@@ -27,7 +27,7 @@ void loop()
     if (servo.get_new_init(new_min, new_max)) {
         max_us         = new_max;
         min_us         = new_min;
-        pulse_width_ms = (max_us - min_us) / 1000.0f;
+        pulse_width_ms = float(max_us - min_us) / 1000.0f;
     }
     can_bus.update();
     if (servo.get_new_angle_rad(angle_rad)) {
