@@ -27,12 +27,12 @@ void loop()
     if (servo.get_new_init(new_min, new_max)) {
         max_us         = new_max;
         min_us         = new_min;
-        pulse_width_ms = (max_us - min_us) * 1000.0f;
+        pulse_width_ms = (max_us - min_us);
     }
     can_bus.update();
     if (servo.get_new_angle_rad(angle_rad)) {
-        duty_ms = (uint32_t)(angle_rad * (pulse_width_ms / 3.14159265359f) + min_us * 1000.0f);
+        duty_ms = (uint32_t)(angle_rad * (pulse_width_ms / 3.14159265359f) + min_us);
     }
-    uint32_t duty = uint32_t(duty_ms * MAX_DUTY / 1000.0f);
-    __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, duty_ms);
+    uint32_t duty = uint32_t((duty_ms / 20.0f) * MAX_DUTY);
+    __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, duty);
 }
