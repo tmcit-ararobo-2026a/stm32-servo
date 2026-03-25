@@ -32,7 +32,7 @@ void loop()
     can_bus.update();
     if (servo.get_new_angle_rad(angle_rad)) {
         duty_ms =
-            (uint32_t)((angle_rad / 3.14159265359f) * pulse_width_ms + ((float)min_us / 1000.0f));
+            (angle_rad / 3.14159265359f) * pulse_width_ms + ((float)min_us / 1000.0f);
         uint32_t duty = uint32_t((duty_ms / 20.0f) * MAX_DUTY);
         __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, duty);
     }
