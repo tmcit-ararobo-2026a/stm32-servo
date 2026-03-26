@@ -22,17 +22,18 @@ void setup()
 
 void loop()
 {
-    float angle_rad = 0;
-    uint16_t new_max, new_min;
+    float angle_rad  = 0;
+    uint16_t new_max = 0, new_min = 0;
     if (servo.get_new_init(new_min, new_max)) {
+        HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, GPIO_PIN_SET);
         max_us         = new_max;
         min_us         = new_min;
         pulse_width_ms = float(max_us - min_us) / 1000.0f;
     }
     can_bus.update();
     if (servo.get_new_angle_rad(angle_rad)) {
-        duty_ms =
-            (angle_rad / 3.14159265359f) * pulse_width_ms + ((float)min_us / 1000.0f);
+        HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, GPIO_PIN_SET);
+        duty_ms       = (angle_rad / 3.14159265359f) * pulse_width_ms + ((float)min_us / 1000.0f);
         uint32_t duty = uint32_t((duty_ms / 20.0f) * MAX_DUTY);
         __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, duty);
     }
