@@ -15,7 +15,7 @@ gn10_can::devices::ServoMotorServer servo0(can_bus, 0);
 
 float angle_rad;
 uint16_t new_min = 1000;
-uint16_t new_max = 1350;
+uint16_t new_max = 1700;
 
 void setup()
 {
